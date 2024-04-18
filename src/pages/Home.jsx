@@ -9,6 +9,7 @@ const Home = () => {
   const getTutorials = async () => {
     const URL = "https://tutorial-api.fullstack.clarusway.com/tutorials/";
     const res = await axios(URL)
+    setTutorials(res.data)
     console.log(res.data)
   }
 
@@ -20,7 +21,7 @@ const Home = () => {
   return (
     <>
       <AddTutorial />
-      <TutorialList />
+      <TutorialList tutorials={tutorials}/>
     </>
   );
 };
