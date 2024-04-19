@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from 'axios'
 
 //? https://react.dev/reference/react/useState#usestate
 //! State degiskeninin degeri, 1.render ile initialState
@@ -9,8 +10,8 @@ import { useState, useEffect } from "react";
 //! aktarmak istersek useEffect hook'unu componentDidUpdate
 //! gibi kullanabiriz.
 
-const EditModal = ({ editData }) => {
-  console.log(editData);
+const EditModal = ({ editData, getTutorials }) => {
+
 
   const [title, setTitle] = useState(editData.title);
   const [description, setDescription] = useState(editData.description);
@@ -23,14 +24,19 @@ const EditModal = ({ editData }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const newTutor = { title, description }
-    // postTutorial(newTutor)
-    // setTitle("")
-    // setDescription("")
+    const editObject = {title, description}
+    editInfo(editObject)
   };
 
-  console.log(title);
-  console.log(description);
+  const editInfo = async(editObject) => {
+    try {
+       await axios.put(`${process.env.REACT_APP_URL}${editData.id}/`, editObject);
+    } catch (error) {
+        console.log(error)
+    }
+    getTutorials()
+  }
+
   return (
     <>
       <div
@@ -84,7 +90,11 @@ const EditModal = ({ editData }) => {
                   />
                 </div>
                 <div className="d-flex justify-content-center align-items-center gap-2">
-                  <button type="submit" className="btn btn-danger ">
+                  <button
+                    type="submit"
+                    className="btn btn-danger "
+                    data-bs-dismiss="modal"
+                  >
                     Submit
                   </button>
                   <button className="btn btn-secondary" data-bs-dismiss="modal">

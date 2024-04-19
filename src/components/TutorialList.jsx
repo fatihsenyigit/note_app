@@ -57,7 +57,7 @@ const [editData, setEditData] = useState("");
           })}
         </tbody>
       </table>
-      <EditModal editData={editData} />
+      <EditModal editData={editData} getTutorials={getTutorials} />
     </div>
   );
 }
