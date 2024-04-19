@@ -7,10 +7,14 @@ const Home = () => {
   const [tutorials, setTutorials] = useState([])
 
   const getTutorials = async () => {
-    const URL = "https://tutorial-api.fullstack.clarusway.com/tutorials/";
-    const res = await axios(URL)
-    setTutorials(res.data)
-    console.log(res.data)
+    try {
+      const res = await axios(process.env.REACT_APP_URL);
+      setTutorials(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error)
+    }
+    
   }
 
   useEffect(() => {
