@@ -1,9 +1,11 @@
 import { FaEdit } from "react-icons/fa"
 import { AiFillDelete } from "react-icons/ai"
 import axios from "axios"
+import EditModal from './EditModal'
+import { useState } from "react";
 
 const TutorialList = ({tutorials,getTutorials}) => {
-
+const [editData, setEditData] = useState("");
   const deleteTutorial = async(id) => {
     try {
       await axios.delete(`${process.env.REACT_APP_URL}${id}/`)
@@ -28,7 +30,7 @@ const TutorialList = ({tutorials,getTutorials}) => {
         </thead>
         <tbody>
           {tutorials?.map((item) => {
-            const { id, title, description } = item
+            const { id, title, description } = item;
             return (
               <tr key={id}>
                 <th>{id}</th>
@@ -39,21 +41,25 @@ const TutorialList = ({tutorials,getTutorials}) => {
                     size={20}
                     type="button"
                     className="me-2 text-warning"
+                    data-bs-toggle="modal"
+                    data-bs-target="#open-modal"
+                    onClick={() => setEditData(item)}
                   />
                   <AiFillDelete
                     size={22}
                     type="button"
                     className="text-danger "
-                    onClick={()=>deleteTutorial(id)}
+                    onClick={() => deleteTutorial(id)}
                   />
                 </td>
               </tr>
-            )
+            );
           })}
         </tbody>
       </table>
+      <EditModal editData={editData} />
     </div>
-  )
+  );
 }
 
 export default TutorialList
